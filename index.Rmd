@@ -13,42 +13,44 @@ knit        : slidify::knit2slides
 
 ## Overview
 
-This data product used dataset GaltonFamilies, in the [HistData](https://cran.r-project.org/web/packages/HistData/) R package, to predicts height of child through his gender and the height of the parents.
+We will work with the GaltonFamilies dataset, more information for this dataset can be found here [HistData](https://cran.r-project.org/web/packages/HistData/), this data product will predict the child height using the height of the parents and the gender of the child.
 
-Presentation is being created as part of the peer assessment for the Coursera Developing Data Products. The assignment is geared toward ensuring the following concepts were well understood by the students:
+This developing data products assigment will ensure that we fully understand and use all the concepts related to:
 
-* Shiny to build data product application
-* Slidify to create data product related presentations
+* Shiny to build data product application.
+* Slidify to create data product related presentations.
 
---- .class #id 
+--- .class #id
 
-## Data loading and preprocessing
+## Loading and transforming the dataset
 
-```{r, eval=FALSE}
+```{r}
 library(HistData)
 library(dplyr)
 library(GGally)
 library(ggplot2)
 
-# loading dataset
-gf <- data("GaltonFamilies")
+# Loading dataset
+data("GaltonFamilies")
 
-# transform inches to cms
-gf <- gf %>% mutate(fh=father*2.54,
-                    mh=mother*2.54,
-                    mph=midparentHeight*2.54,
-                    ch=childHeight*2.54)
+# Transform inches to cms
+GaltonFamilies <- GaltonFamilies %>% mutate(fh=father*2.54,
+                                            mh=mother*2.54,
+                                            mph=midparentHeight*2.54,
+                                            ch=childHeight*2.54)
 
-# fit different linear models for testing
-m1 <- lm(ch ~ mph, data=gf)
-m2 <- lm(ch ~ mph + gender, data=gf)
-m3 <- lm(ch ~ fh + mh + gender, data=gf)
+# Fit different linear models for testing
+model1 <- lm(ch ~ mph, data=GaltonFamilies)
+model2 <- lm(ch ~ mph + gender, data=GaltonFamilies)
+model3 <- lm(ch ~ fh + mh + gender, data=GaltonFamilies)
 ```
 
 
---- .class #id 
+--- .class #id &twocol
 
-## asd
+## Correlation plot
+
+*** =left
 
 ```{r, echo=FALSE, warning=FALSE}
 library(HistData)
@@ -58,6 +60,31 @@ library(ggplot2)
 data(GaltonFamilies)
 df <- GaltonFamilies[,c("childHeight", "father", "mother", "midparentHeight", "gender")]
 ggpairs(df, lower=list(combo=wrap("facethist", binwidth=0.8)))
+
 ```
 
+*** =right
 
+We can see in the plots that the child's height is very correlated with the gender and heights of the parents.
+
+--- .class #id
+
+## Selecting the best linear model
+
+```{r}
+anova(model1, model2, model3, test = "F")
+```
+
+Here we can see that the best model is the one using `ch ~ fh + mh + gender`
+
+--- .class #id
+
+## Shiny application
+
+The application allows the user to:
+
+Select height of parents (mother and father) and gender of child. Make plot and give predicted height of child.
+
+The Shiny App for this project can be found [Here](https://danielzuluaga.shinyapps.io/childHeight/)
+
+GitHub repository for the project can be found [Here](https://github.com/ZuluagaSD/data-products)

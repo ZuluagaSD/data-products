@@ -45,13 +45,13 @@
     <h2>Overview</h2>
   </hgroup>
   <article data-timings="">
-    <p>This data product used dataset GaltonFamilies, in the <a href="https://cran.r-project.org/web/packages/HistData/">HistData</a> R package, to predicts height of child through his gender and the height of the parents.</p>
+    <p>We will work with the GaltonFamilies dataset, more information for this dataset can be found here <a href="https://cran.r-project.org/web/packages/HistData/">HistData</a>, this data product will predict the child height using the height of the parents and the gender of the child.</p>
 
-<p>Presentation is being created as part of the peer assessment for the Coursera Developing Data Products. The assignment is geared toward ensuring the following concepts were well understood by the students:</p>
+<p>This developing data products assigment will ensure that we fully understand and use all the concepts related to:</p>
 
 <ul>
-<li>Shiny to build data product application</li>
-<li>Slidify to create data product related presentations</li>
+<li>Shiny to build data product application.</li>
+<li>Slidify to create data product related presentations.</li>
 </ul>
 
   </article>
@@ -60,7 +60,7 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Data loading and preprocessing</h2>
+    <h2>Loading and transforming the dataset</h2>
   </hgroup>
   <article data-timings="">
     <pre><code class="r">library(HistData)
@@ -68,19 +68,19 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 
-# loading dataset
-gf &lt;- data(&quot;GaltonFamilies&quot;)
+# Loading dataset
+data(&quot;GaltonFamilies&quot;)
 
-# transform inches to cms
-gf &lt;- gf %&gt;% mutate(fh=father*2.54,
-                    mh=mother*2.54,
-                    mph=midparentHeight*2.54,
-                    ch=childHeight*2.54)
+# Transform inches to cms
+GaltonFamilies &lt;- GaltonFamilies %&gt;% mutate(fh=father*2.54,
+                                            mh=mother*2.54,
+                                            mph=midparentHeight*2.54,
+                                            ch=childHeight*2.54)
 
-# fit different linear models for testing
-m1 &lt;- lm(ch ~ mph, data=gf)
-m2 &lt;- lm(ch ~ mph + gender, data=gf)
-m3 &lt;- lm(ch ~ fh + mh + gender, data=gf)
+# Fit different linear models for testing
+model1 &lt;- lm(ch ~ mph, data=GaltonFamilies)
+model2 &lt;- lm(ch ~ mph + gender, data=GaltonFamilies)
+model3 &lt;- lm(ch ~ fh + mh + gender, data=GaltonFamilies)
 </code></pre>
 
   </article>
@@ -89,10 +89,61 @@ m3 &lt;- lm(ch ~ fh + mh + gender, data=gf)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>asd</h2>
+    <h2>Correlation plot</h2>
   </hgroup>
   <article data-timings="">
-    <p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
+    
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>We can see in the plots that the child&#39;s height is very correlated with the gender and heights of the parents.</p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Selecting the best linear model</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">anova(model1, model2, model3, test = &quot;F&quot;)
+</code></pre>
+
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: ch ~ mph
+## Model 2: ch ~ mph + gender
+## Model 3: ch ~ fh + mh + gender
+##   Res.Df   RSS Df Sum of Sq         F  Pr(&gt;F)    
+## 1    932 69171                                   
+## 2    931 28284  1     40886 1352.4430 &lt; 2e-16 ***
+## 3    930 28115  1       169    5.5904 0.01826 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre>
+
+<p>Here we can see that the best model is the one using <code>ch ~ fh + mh + gender</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Shiny application</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The application allows the user to:</p>
+
+<p>Select height of parents (mother and father) and gender of child. Make plot and give predicted height of child.</p>
+
+<p>The Shiny App for this project can be found <a href="https://danielzuluaga.shinyapps.io/childHeight/">Here</a></p>
+
+<p>GitHub repository for the project can be found <a href="https://github.com/ZuluagaSD/data-products">Here</a></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -110,14 +161,26 @@ m3 &lt;- lm(ch ~ fh + mh + gender, data=gf)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Data loading and preprocessing'>
+        data-slide=2 title='Loading and transforming the dataset'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='asd'>
+        data-slide=3 title='Correlation plot'>
          3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Selecting the best linear model'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Shiny application'>
+         5
       </a>
     </li>
   </ul>
