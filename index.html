@@ -60,10 +60,29 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Slide 2</h2>
+    <h2>Data loading and preprocessing</h2>
   </hgroup>
   <article data-timings="">
-    
+    <pre><code class="r">library(HistData)
+library(dplyr)
+library(GGally)
+library(ggplot2)
+
+# loading dataset
+gf &lt;- data(&quot;GaltonFamilies&quot;)
+
+# transform inches to cms
+gf &lt;- gf %&gt;% mutate(fh=father*2.54,
+                    mh=mother*2.54,
+                    mph=midparentHeight*2.54,
+                    ch=childHeight*2.54)
+
+# fit different linear models for testing
+m1 &lt;- lm(ch ~ mph, data=gf)
+m2 &lt;- lm(ch ~ mph + gender, data=gf)
+m3 &lt;- lm(ch ~ fh + mh + gender, data=gf)
+</code></pre>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -73,7 +92,8 @@
     <h2>asd</h2>
   </hgroup>
   <article data-timings="">
-    
+    <p><img src="assets/fig/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2"></p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -90,7 +110,7 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Slide 2'>
+        data-slide=2 title='Data loading and preprocessing'>
          2
       </a>
     </li>

@@ -22,8 +22,35 @@ Presentation is being created as part of the peer assessment for the Coursera De
 
 --- .class #id 
 
-## Slide 2
+## Data loading and preprocessing
+
+
+```r
+library(HistData)
+library(dplyr)
+library(GGally)
+library(ggplot2)
+
+# loading dataset
+gf <- data("GaltonFamilies")
+
+# transform inches to cms
+gf <- gf %>% mutate(fh=father*2.54,
+                    mh=mother*2.54,
+                    mph=midparentHeight*2.54,
+                    ch=childHeight*2.54)
+
+# fit different linear models for testing
+m1 <- lm(ch ~ mph, data=gf)
+m2 <- lm(ch ~ mph + gender, data=gf)
+m3 <- lm(ch ~ fh + mh + gender, data=gf)
+```
+
 
 --- .class #id 
 
 ## asd
+
+![plot of chunk unnamed-chunk-2](assets/fig/unnamed-chunk-2-1.png)
+
+
