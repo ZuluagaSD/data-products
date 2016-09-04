@@ -1,14 +1,15 @@
 ---
-title       : Developing data products
-subtitle    : Predicting child height
-author      : Daniel Zuluaga
-job         : 
-framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
-highlighter : highlight.js  # {highlight.js, prettify, highlight}
-hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
-mode        : selfcontained # {standalone, draft}
-knit        : slidify::knit2slides
+title: "Developing data products"
+author: "Daniel Zuluaga - 2016-09-04"
+highlighter: highlight.js
+output: pdf_document
+job: null
+knit: slidify::knit2slides
+mode: selfcontained
+hitheme: tomorrow
+subtitle: Predicting child height
+framework: io2012
+widgets: []
 ---
 
 ## Overview

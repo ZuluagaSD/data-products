@@ -7,3 +7,7 @@ Code and slides for Course Project: Shiny Application and Reproducible Pitch
 Shiny App URL:
 
 - https://danielzuluaga.shinyapps.io/childHeight/
+
+Slides for the poject can be found here:
+
+- https://dl.dropboxusercontent.com/u/40102574/data-products/index.html
